@@ -12,8 +12,7 @@ public class SelectAllQuestion extends MultipleChoiceQuestion {
 	 * @param choices
 	 */
 	public SelectAllQuestion(String prompt, String answer, String[] choices) {
-		// Hint: 1 point per choice
-		throw new NotYetImplementedException();
+		super(prompt, answer, choices.length, choices);
 	}
 	
 	/**
@@ -21,7 +20,15 @@ public class SelectAllQuestion extends MultipleChoiceQuestion {
 	 * @param String givenAnswer to check for points
 	 */
 	public int checkAnswer(String givenAnswer) {
-		throw new NotYetImplementedException();
+		int missing = findMissingCorrectAnswers(givenAnswer);
+		int incorrect = findIncorrectGivenAnswers(givenAnswer);
+		int totalPoints = getPoints();
+		
+		if(missing == 0 && incorrect == 0) {
+			return totalPoints;
+		} else {
+			return totalPoints - missing - incorrect;
+		}
 	}
 
 	/**
@@ -66,7 +73,10 @@ public class SelectAllQuestion extends MultipleChoiceQuestion {
 		return missingValues;
 	}	
 	
-	public static void main(String[] args) {	
-		
+	public static void main(String[] args) {
+		String[] options = { "Paris", "London", "Berlin", "Madrid" };
+		SelectAllQuestion saq = new SelectAllQuestion("Select all European capitals:", "13", options);
+		saq.displayPrompt();
+
 	}
 }
